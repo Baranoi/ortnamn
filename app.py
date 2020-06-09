@@ -10,9 +10,12 @@ import json
 import plotly.express as px
 import plotly.graph_objects as go
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
+tabtitle='efterled'
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = app.server
+app.title = tabtitle
 
 background_color = '#242424'
 land_color = '#2e2e2e'
@@ -20,13 +23,9 @@ accent_color = '#6b6b6b'
 text_color = '#BBBBBB'
 
 #Heroku branch
+githublink='https://github.com/Baranoi/ortnamn.git'
 
 colorway = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
-
-#colorway = ["#22325f", "#88ce64", "#fbd234", "#b8091f", "#682f4e", "#fdea6e", "#4aec6a", "#fb7894", "#f13111", "#2584a0","#6fa42c", "#db3717", "#051a8d", "#ef38a7", "#202c3d"]
-
-
-#colorway = ["#EE1657","#FF90B1","#D402F2","#A202F2","#136EEE","#2D13EE","#6A55FF","#2194A4","#3AEBB4","#22A480","#99FFDF","#00F9FF","#00D7DC","#A7FDFF","#B3D600","#D2F619","#BDF619","#F67219","#F63019","#E8D90D","#FFE600"]
 
 def get_polygon_xy(jdata):
     pts = []#list of points defining boundaries of polygons
@@ -193,36 +192,5 @@ def add_new(n_clicks, clear_clicks, n_submit, suggestion_el, input_el, map_fig, 
     return map_fig, '', last_clear_clicks
 
 
-#@app.callback(
-#    Output('map-plot', 'figure'),
-#    [Input('suggestion-dropdown', 'value')],
-#    [State('map-plot', 'figure')]
-#)
-#def add_new_from_suggestion(el, map_fig):
-#    if el is not None:
-#        trace = get_el_trace(el, visible=True)
-#        map_fig['data'].append(trace)
-#    return map_fig
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server()
