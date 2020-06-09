@@ -88,8 +88,8 @@ def get_map_trace():
                     line_width=1.0, 
                     fill='toself', 
                     fillcolor=land_color,
-                   showlegend=False,
-                   hoverinfo='skip'
+                    showlegend=False,
+                    hoverinfo='skip'
     )
     return trace
 
@@ -110,7 +110,7 @@ def get_el_trace(el, visible):
     )
     return trace
 
-fig.add_trace(get_map_trace())
+#fig.add_trace(get_map_trace())
 
 # Sort efterled
 df = pd.read_csv('./static/wiki_ortnamn_heroku.csv')
