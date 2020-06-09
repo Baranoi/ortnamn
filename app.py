@@ -94,7 +94,11 @@ def get_map_trace():
     return trace
 
 def get_el_trace(el, visible):
-    el_df = df[df['efterled'] == el]
+    if el in el_unique:
+        el_df = df[df['efterled'] == el]
+    else:
+        el_df = df[df['ortnamn'].str.endswith(el)]
+    
     trace = go.Scatter(x=el_df.longitude, 
                     y=el_df.latitude, 
                     mode='markers',
@@ -108,11 +112,11 @@ def get_el_trace(el, visible):
 
 fig.add_trace(get_map_trace())
 
-
 # Sort efterled
-df = pd.read_csv('./static/wiki_ortnamn_clean.csv')
+df = pd.read_csv('./static/wiki_ortnamn_heroku.csv')
 df_el = df.groupby('efterled').count().reset_index()
 df_el.sort_values('ortnamn', inplace=True, ascending=False)
+el_unique = df_el['ortnamn'].unique()
 el_count = []
 for i, row in df_el.iterrows():
     el = row['efterled']
