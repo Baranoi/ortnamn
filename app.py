@@ -154,7 +154,7 @@ app.layout = html.Div(children=[
             ),
             html.Button('Lägg till', id='submit-button', style={'margin-top':'5px'}),
             dcc.Dropdown(id='suggestion-dropdown', options=el_count, placeholder='Förslag', style=dict(width='130px')),
-            html.Button('Clear', id='clear-button', style={'margin-top':'5px'}),
+            html.Button('Rensa', id='clear-button', style={'margin-top':'5px'}),
             ], style={'width': '200px', 'display': 'inline-block', 'vertical-align':'top', 'margin-top': '50px'})
         
         
