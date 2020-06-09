@@ -154,11 +154,11 @@ app.layout = html.Div(children=[
                 id='input-field',
                 type='text',
                 placeholder='berg',
-                style=dict(width='130px')
+                style={'width':'130px', 'margin-bottom':'5px'}
             ),
-            html.Button('Lägg till', id='submit-button', style={'margin-top':'5px'}),
+            html.Button('Lägg till', id='submit-button', style={'margin-top':'5px', 'display':'none'}),
             dcc.Dropdown(id='suggestion-dropdown', options=el_count, placeholder='Förslag', style=dict(width='130px')),
-            html.Button('Rensa', id='clear-button', style={'margin-top':'5px'}),
+            html.Button('Rensa', id='clear-button', style={'margin-top':'5px', 'width':'130px'}),
             ], style={'width': '200px', 'display': 'inline-block', 'vertical-align':'top', 'margin-top': '50px'})
         
         
@@ -187,7 +187,7 @@ def add_new(n_clicks, clear_clicks, n_submit, suggestion_el, input_el, map_fig, 
         map_fig['data'] = [get_map_trace()]
     
     elif input_el != '' and input_el is not None:
-        trace = get_el_trace(input_el, visible=True)
+        trace = get_el_trace(input_el.strip('-'), visible=True)
         map_fig['data'].append(trace)
     
     elif suggestion_el is not None:
