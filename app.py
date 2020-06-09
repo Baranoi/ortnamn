@@ -184,7 +184,7 @@ def add_new(n_clicks, clear_clicks, n_submit, suggestion_el, input_el, map_fig, 
     print(clear_clicks, last_clear_clicks)
     if clear_clicks is not None and clear_clicks > int(last_clear_clicks):
         last_clear_clicks = clear_clicks
-        map_fig['data'] = [map_fig['data'][0]]
+        map_fig['data'] = [get_map_trace()]
     
     elif input_el != '' and input_el is not None:
         trace = get_el_trace(input_el, visible=True)
