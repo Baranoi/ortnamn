@@ -12,7 +12,6 @@ future==0.18.2
 itsdangerous==1.1.0
 Jinja2==2.11.1
 kiwisolver==1.1.0
-MarkupSafe==1.1.1
 mkl-fft==1.0.15
 mkl-random==1.1.0
 mkl-service==2.3.0
