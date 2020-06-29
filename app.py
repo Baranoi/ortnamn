@@ -125,7 +125,7 @@ top_el = df_el['efterled'][:15]
 top_el.values
 
 for el in top_el:
-    if el in ['arp', 'fors','sund','ås']:
+    if el in ['arp', 'fors','sund','ås']: # Fun examples on init
         visible = True
     else:
         visible = 'legendonly'
