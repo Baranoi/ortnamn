@@ -136,7 +136,7 @@ top_el = df_el['efterled'][:15]
 
 # Plot default suffixes
 for el in top_el:
-    if el in ['arp', 'fors','sund','ås']: Fun examples on init
+    if el in ['arp', 'fors','sund','ås']: # Fun examples on init
         visible = True
     else:
         visible = 'legendonly'
