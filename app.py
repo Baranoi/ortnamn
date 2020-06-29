@@ -10,7 +10,7 @@ import json
 import plotly.express as px
 import plotly.graph_objects as go
 
-
+# App settings
 tabtitle='efterled'
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -25,9 +25,11 @@ text_color = '#BBBBBB'
 #Heroku branch
 githublink='https://github.com/Baranoi/ortnamn.git'
 
+# Nicer default colors for better contrast on dark background
 colorway = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
 
 def get_polygon_xy(jdata):
+    # Convert geojson data to coordinate list
     pts = []#list of points defining boundaries of polygons
     for  feature in jdata['features']:
         if feature['geometry']['type'] == 'Polygon':
@@ -81,6 +83,7 @@ fig.update_layout(#width=600,
 
 
 def get_map_trace():
+    # Get background trace of regions
     trace = go.Scatter(x=x, 
                     y=y, 
                     mode='lines', 
@@ -94,9 +97,11 @@ def get_map_trace():
     return trace
 
 def get_el_trace(el, visible):
+    # Get suffix trace
     if el in el_unique:
         el_df = df[df['efterled'] == el]
     else:
+        #If not already categorized
         el_df = df[df['ortnamn'].str.endswith(el)]
     
     trace = go.Scatter(x=el_df.longitude, 
@@ -110,13 +115,15 @@ def get_el_trace(el, visible):
     )
     return trace
 
-fig.add_trace(get_map_trace())
+fig.add_trace(get_map_trace()) #Init background map
 
-# Sort efterled
+# Sort after top suffixes on init and pic
 df = pd.read_csv('./static/wiki_ortnamn_heroku.csv')
 df_el = df.groupby('efterled').count().reset_index()
 df_el.sort_values('ortnamn', inplace=True, ascending=False)
 el_unique = df_el['ortnamn'].unique()
+
+# Build counts of suffixes to make suggestion list and top 15
 el_count = []
 for i, row in df_el.iterrows():
     el = row['efterled']
@@ -126,16 +133,18 @@ for i, row in df_el.iterrows():
     el_count.append(d)
 
 top_el = df_el['efterled'][:15]
-top_el.values
 
+# Plot default suffixes
 for el in top_el:
-    if el in ['arp', 'fors','sund','ås']:
+    if el in ['arp', 'fors','sund','ås']: Fun examples on init
         visible = True
     else:
         visible = 'legendonly'
     
     fig.add_trace(get_el_trace(el,visible))
 
+
+# App layout
 app.layout = html.Div(children=[
 
     html.Div(
@@ -168,6 +177,8 @@ app.layout = html.Div(children=[
 
 ],className='row', style={'backgroundColor':background_color})
 
+
+# Update map callback if new input
 @app.callback(
     [Output('map-plot', 'figure'),
      Output('input-field', 'value'),
@@ -181,15 +192,18 @@ app.layout = html.Div(children=[
     State('last-clear-clicks', 'children')]
 )
 def add_new(n_clicks, clear_clicks, n_submit, suggestion_el, input_el, map_fig, last_clear_clicks):
-    print(clear_clicks, last_clear_clicks)
+
+    # Keep track of if clear button has been clicked and clear
     if clear_clicks is not None and clear_clicks > int(last_clear_clicks):
         last_clear_clicks = clear_clicks
         map_fig['data'] = [get_map_trace()]
     
+    # If manual input
     elif input_el != '' and input_el is not None:
         trace = get_el_trace(input_el.strip('-'), visible=True)
         map_fig['data'].append(trace)
     
+    # If chosen from sggestion dropdown
     elif suggestion_el is not None:
         trace = get_el_trace(suggestion_el, visible=True)
         map_fig['data'].append(trace)
